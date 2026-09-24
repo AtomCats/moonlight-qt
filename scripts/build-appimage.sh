@@ -46,7 +46,7 @@ pushd $BUILD_FOLDER
 # work even in X11. To avoid this, we will disable Wayland support for the AppImage.
 #
 # We disable DRM support because linuxdeploy doesn't bundle the appropriate libraries for Qt EGLFS.
-qmake6 $SOURCE_ROOT/moonlight-qt.pro CONFIG+=disable-wayland CONFIG+=disable-libdrm PREFIX=$DEPLOY_FOLDER/usr DEFINES+=APP_IMAGE || fail "Qmake failed!"
+qmake6 $SOURCE_ROOT/moonlight-qt.pro CONFIG+=disable-libdrm PREFIX=$DEPLOY_FOLDER/usr DEFINES+=APP_IMAGE || fail "Qmake failed!"
 popd
 
 echo Compiling Moonlight in $BUILD_CONFIG configuration
@@ -132,11 +132,15 @@ VERSION=$VERSION $LINUXDEPLOY --appdir $DEPLOY_FOLDER \
   --library=/usr/local/lib/libSDL3.so.0 \
   --plugin qt \
   --custom-apprun $APP_RUN \
-  --exclude-library=libva.so* \
-  --exclude-library=libva-drm.so* \
-  --exclude-library=libva-wayland.so* \
-  --exclude-library=libva-x11.so* \
-  --output appimage || fail "linuxdeploy failed!"
+--exclude-library=libva.so* \
+--exclude-library=libva-drm.so* \
+--exclude-library=libva-wayland.so* \
+--exclude-library=libva-x11.so* \
+--exclude-library=libwayland-client.so* \
+--exclude-library=libwayland-cursor.so* \
+--exclude-library=libwayland-egl.so* \
+--exclude-library=libwayland-server.so* \
+--output appimage || fail "linuxdeploy failed!"
 popd
 
 echo Build successful
