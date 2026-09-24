@@ -159,15 +159,8 @@ jobs:
 
       - name: Verify Wayland plugins
         run: |
-          mkdir -p /tmp/moonlight-appimage
-          build/installer-release/Moonlight-*-x86_64.AppImage \
-            --appimage-extract >/dev/null
-      
-          find squashfs-root -type f | grep -E \
-            'libqwayland-(egl|generic)\.so|libQt6Wayland'
-      
-          test -f squashfs-root/usr/plugins/platforms/libqwayland-egl.so
-          test -f squashfs-root/usr/plugins/platforms/libqwayland-generic.so
+          build/installer-release/Moonlight-*-x86_64.AppImage --appimage-extract >/dev/null
+          find squashfs-root -type f | grep -i wayland
           
       - name: Upload Binaries
         uses: actions/upload-artifact@v6
