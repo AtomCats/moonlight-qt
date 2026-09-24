@@ -128,6 +128,9 @@ pushd $INSTALLER_FOLDER
 # software decoding. The host always provides libva on systems where VA-API is
 # usable, so link against it at runtime instead (the AppRun shim above keeps a
 # bundled last-resort copy for hosts without libva).
+export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so"
+export EXTRA_QT_MODULES="waylandcompositor"
+
 VERSION=$VERSION $LINUXDEPLOY --appdir $DEPLOY_FOLDER \
   --library=/usr/local/lib/libSDL3.so.0 \
   --plugin qt \
